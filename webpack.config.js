@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
   entry: './src/App.js',
@@ -16,5 +17,10 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.TOKEN': JSON.stringify(process.env.TOKEN)
+    })
+  ]
 }
