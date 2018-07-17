@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
+import { Provider, connect } from 'react-redux'
 import { render } from 'react-dom'
+import { store, Actions } from './store'
 
-class App extends Component {
+class AppContainer extends Component {
   constructor(props) {
     super(props)
-    navigator.geolocation.getCurrentPosition(location => {
-      console.log(location)
-    })
 
     this.state = {
       url: 'blooo'
@@ -19,6 +18,10 @@ class App extends Component {
       this.setState({
         url: tabs[0].url
       })
+    })
+
+    navigator.geolocation.getCurrentPosition(location => {
+      console.log(location)
     })
   }
 
@@ -36,7 +39,22 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  errors: state.error,
+  prices: state.prices
+})
+
+const mapDispatchToProps = dispatch => ({
+  getEstimate: (params) => {
+    return dispatch(Actions.getEstimate(params))
+  }
+})
+
+AppContainer = connect(mapStateToProps, mapDispatchToProps)(AppContainer)
+
 render(
-  <App />,
+  <Provider store={store}>
+    <AppContainer />
+  </Provider>,
   document.getElementById('mount')
 )
