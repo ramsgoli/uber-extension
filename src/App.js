@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Provider, connect } from 'react-redux'
 import { render } from 'react-dom'
 import { store, Actions } from './store'
+import './main.scss'
 
 class AppContainer extends Component {
   constructor(props) {
