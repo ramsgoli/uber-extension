@@ -4,30 +4,20 @@ const REQUEST_START = 'request_start'
 const REQUEST_SUCCESS = 'request_success'
 const REQUEST_ERROR = 'request_error'
 
-const _buildURL = params => {
-  const parameterString = '?' + Object.keys(params).reduce((acc, elem) => {
-    return acc + `${elem}=${params[elem]}&`
-  }, '').slice(0, -1)
-  return Config.API_URL + parameterString
-}
-
-export const getEstimate = params => {
+export const getCoordinates = address => {
   return async dispatch => {
-    const url = _buildURL(params)
+    const url = `${Config.API_URL}?address=${address}`
     try {
       const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Token ${Config.TOKEN}`
-        }
+        method: 'GET'
       })
 
       const status = await response.status
-      if (status >= 300) {
-        throw new Error('Bad response from API')
+      const data = await response.json()
+      if (status != 200) {
+        throw new Error(response.message)
       }
 
-      const data = await response.json()
       return dispatch({
         type: REQUEST_SUCCESS,
         data
@@ -43,21 +33,21 @@ export const getEstimate = params => {
 
 const initialState = {
   error: null,
-  prices: []
+  coordinates: {}
 }
 
-export const Uber = (state = initialState, action) => {
+export const Coordinates = (state = initialState, action) => {
   switch (action.type) {
     case REQUEST_SUCCESS: {
       return Object.assign({}, {
         error: null,
-        prices: action.data.prices
+        coordinates: action.data
       })
     }
     case REQUEST_ERROR: {
       return Object.assign({}, {
         error: action.message,
-        prices: []
+        coordinates: {}
       })
     }
     default: return state

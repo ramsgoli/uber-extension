@@ -10,6 +10,7 @@ class AppContainer extends Component {
     this.state = {
       url: 'blooo'
     }
+    console.log("hello world")
   }
 
   componentDidMount() {
@@ -19,6 +20,7 @@ class AppContainer extends Component {
         url: tabs[0].url
       })
     })
+
 
     navigator.geolocation.getCurrentPosition(location => {
       console.log(location)

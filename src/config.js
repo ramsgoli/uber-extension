@@ -1,4 +1,4 @@
 export default {
-  API_URL: 'https://api.github.com/v1.2/estimates/price',
+  API_URL: 'https://ramsgoli.com/uber',
   TOKEN: process.env.TOKEN
 }

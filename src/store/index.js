@@ -1,8 +1,13 @@
-import { createStore, applyMiddleware } from 'redux'
-import { getEstimate, Uber } from './uber'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
+import { getEstimate, Estimate } from './uber'
+import { getCoordinates, Coordinates } from './coordinates'
 
-export const store = createStore(Uber)
+export const store = createStore(combineReducers({
+  Estimate,
+  Coordinates
+}))
 
 export const Actions = {
-  getEstimate
+  getEstimate,
+  getCoordinates
 }
