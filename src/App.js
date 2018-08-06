@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Provider, connect } from 'react-redux'
 import { render } from 'react-dom'
 import { store, Actions } from './store'
+
+import Spinner from './components/Spinner'
+import Null from './containers/Null'
 import './main.scss'
 
 class AppContainer extends Component {
@@ -9,36 +12,36 @@ class AppContainer extends Component {
     super(props)
 
     this.state = {
-      url: 'blooo'
+      url: '',
+      gotLocation: false,
+      isFacebookEvent: false,
+      coordinates: {}
     }
-    console.log("hello world")
   }
 
   componentDidMount() {
     const query = { active: true, currentWindow: true };
     chrome.tabs.query(query, tabs => {
+      const url = tabs[0].url
+      const isFacebookEvent = /https:\/\/www.facebook.com\/events\/[0-9]+/.test(url)
       this.setState({
-        url: tabs[0].url
+        url,
+        gotLocation: true,
+        isFacebookEvent
       })
-    })
-
-
-    navigator.geolocation.getCurrentPosition(location => {
-      console.log(location)
     })
   }
 
   render() {
-    const { url } = this.state
-    if (url.indexOf('facebook') !== -1) {
-      return (
-        <div>Welcome to facebook</div>
-      )
-    } else {
-      return (
-        <div>Must go to facebook</div>
-      )
+    const { gotLocation, isFacebookEvent } = this.state
+
+    if (gotLocation && !isFacebookEvent) {
+      return <Null />
     }
+
+    return (
+      <Spinner />
+    )
   }
 }
 

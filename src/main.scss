@@ -1,3 +1,33 @@
+@import './components/Spinner/style.scss';
+@import './style/vars.scss';
+
+html {
+  height: 230px;
+}
+
 body {
-  width: 100px;
+  background-color: $black;
+  width: 230px;
+  height: 230px;
+  margin: 0;
+}
+
+h1, h2, h3, p, span {
+  text-align: center;
+}
+
+#mount {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+
+  color: $white;
 }
