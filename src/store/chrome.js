@@ -1,8 +1,9 @@
 const FETCH_URL = 'FETCH_URL'
+const FETCH_ADDRESS = 'FETCH_ADDRESS'
+const query = { active: true, currentWindow: true };
 
 export const fetchUrl = () => {
   return dispatch => {
-    const query = { active: true, currentWindow: true };
     chrome.tabs.query(query, tabs => {
       const url = tabs[0].url
       return dispatch({
@@ -13,9 +14,23 @@ export const fetchUrl = () => {
   }
 }
 
+export const getAddress = () => {
+  return dispatch => {
+    chrome.tabs.query(query, tabs => {
+      chrome.tabs.sendMessage(tabs[0].id, {type: 'getAddress'}, address => {
+        return dispatch({
+          type: FETCH_ADDRESS,
+          address
+        })
+      })
+    })
+  }
+}
+
 const initialState = {
   gotUrl: false,
-  url: null
+  url: null,
+  address: null
 }
 
 export const Chrome = (state = initialState, action) => {
@@ -24,6 +39,11 @@ export const Chrome = (state = initialState, action) => {
       return Object.assign({}, {
         gotUrl: true,
         url: action.url
+      })
+    }
+    case FETCH_ADDRESS: {
+      return Object.assign({}, state, {
+        address: action.address
       })
     }
     default: return state
