@@ -5,54 +5,34 @@ import { store, Actions } from './store'
 
 import Spinner from './components/Spinner'
 import Null from './containers/Null'
+import ShowEstimate from './containers/ShowEstimate'
 import './main.scss'
 
 class AppContainer extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      url: '',
-      gotLocation: false,
-      isFacebookEvent: false,
-      coordinates: {}
-    }
-  }
-
   componentDidMount() {
-    const query = { active: true, currentWindow: true };
-    chrome.tabs.query(query, tabs => {
-      const url = tabs[0].url
-      const isFacebookEvent = /https:\/\/www.facebook.com\/events\/[0-9]+/.test(url)
-      this.setState({
-        url,
-        gotLocation: true,
-        isFacebookEvent
-      })
-    })
+    this.props.fetchUrl()
   }
 
   render() {
-    const { gotLocation, isFacebookEvent } = this.state
+    const { gotUrl, url } = this.props
 
-    if (gotLocation && !isFacebookEvent) {
-      return <Null />
+    if (!gotUrl) {
+      return <Spinner />
     }
 
-    return (
-      <Spinner />
-    )
+    const isFacebookEvent = /https:\/\/www.facebook.com\/events\/[0-9]+/.test(url)
+    return isFacebookEvent ? <ShowEstimate /> : <Null />
   }
 }
 
-const mapStateToProps = state => ({
-  errors: state.error,
-  prices: state.prices
-})
+const mapStateToProps = state => {
+  const { Chrome } = state
+  return {...Chrome}
+}
 
 const mapDispatchToProps = dispatch => ({
-  getEstimate: (params) => {
-    return dispatch(Actions.getEstimate(params))
+  fetchUrl: () => {
+    dispatch(Actions.fetchUrl())
   }
 })
 

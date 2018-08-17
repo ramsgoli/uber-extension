@@ -6,7 +6,8 @@
     "permissions": [
         "storage",
         "tabs",
-        "geolocation"
+        "geolocation",
+        "activeTab"
     ],
     "background": {
         "scripts": ["background.js"],
@@ -14,5 +15,10 @@
     },
     "browser_action": {
         "default_popup": "index.html"
-    }
+    },
+    "content_scripts": [{
+        "matches": ["https://www.facebook.com/events/*"],
+        "js": ["content.js"],
+        "run_at": "document_end"
+    }]
 }
