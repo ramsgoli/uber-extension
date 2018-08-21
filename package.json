@@ -6,11 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack -p",
-    "build-dev": "webpack -p -w"
+    "build:dev": "webpack -p -w"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "dotenv": "^6.0.0",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",

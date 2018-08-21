@@ -12,32 +12,32 @@ const _buildURL = params => {
 }
 
 export const getEstimate = params => {
-  return async dispatch => {
+  return dispatch => {
     const url = _buildURL(params)
-    try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Token ${Config.TOKEN}`
-        }
-      })
-
-      const status = await response.status
-      if (status >= 300) {
-        throw new Error('Bad response from API')
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Token ${Config.TOKEN}`
       }
-
-      const data = await response.json()
-      return dispatch({
-        type: REQUEST_SUCCESS,
-        data
+    })
+      .then(resp => {
+        if (resp.status >= 300) {
+          throw new Error('Bad response from API')
+        }
+        return resp.json()
       })
-    } catch (err) {
-      return dispatch({
-        type: REQUEST_ERROR,
-        message: err.message
+      .then(data => {
+        return dispatch({
+          type: REQUEST_SUCCESS,
+          data
+        })
       })
-    }
+      .catch(err => {
+        return dispatch({
+          type: REQUEST_ERROR,
+          message: err.message
+        })
+      })
   }
 }
 

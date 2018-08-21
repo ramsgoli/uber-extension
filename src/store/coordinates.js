@@ -5,35 +5,35 @@ const REQUEST_SUCCESS = 'request_success'
 const REQUEST_ERROR = 'request_error'
 
 export const getCoordinates = address => {
-  return async dispatch => {
+  return dispatch => {
     const url = `${Config.API_URL}?address=${address}`
-    try {
-      const response = await fetch(url, {
-        method: 'GET'
+    return fetch(url, {
+      method: 'GET'
+    })
+      .then(resp => {
+        if (resp.status != 200) {
+          throw new Error(response.message)
+        }
+        return resp.json()
       })
-
-      const status = await response.status
-      const data = await response.json()
-      if (status != 200) {
-        throw new Error(response.message)
-      }
-
-      return dispatch({
-        type: REQUEST_SUCCESS,
-        data
+      .then(data => {
+        return dispatch({
+          type: REQUEST_SUCCESS,
+          data
+        })
       })
-    } catch (err) {
-      return dispatch({
-        type: REQUEST_ERROR,
-        message: err.message
+      .catch(err => {
+        return dispatch({
+          type: REQUEST_ERROR,
+          message: err.message
+        })
       })
-    }
   }
 }
 
 const initialState = {
   error: null,
-  coordinates: {}
+  coordinates: null
 }
 
 export const Coordinates = (state = initialState, action) => {

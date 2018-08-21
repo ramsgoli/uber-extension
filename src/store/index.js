@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
-import { getEstimate, Estimate } from './uber'
+import { getEstimate, Uber } from './uber'
 import { getCoordinates, Coordinates } from './coordinates'
-import { fetchUrl, getAddress, Chrome } from './chrome'
+import { fetchUrl, getAddress, getLocation, Chrome } from './chrome'
 
 export const store = createStore(
   combineReducers({
-    Estimate,
+    Uber,
     Coordinates,
     Chrome
   }),
@@ -19,5 +19,6 @@ export const Actions = {
   getEstimate,
   getCoordinates,
   fetchUrl,
-  getAddress
+  getAddress,
+  getLocation
 }

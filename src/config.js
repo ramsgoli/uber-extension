@@ -1,4 +1,4 @@
 export default {
-  API_URL: 'https://ramsgoli.com/uber',
+  API_URL: 'https://www.ramsgoli.com/uber',
   TOKEN: process.env.TOKEN
 }
