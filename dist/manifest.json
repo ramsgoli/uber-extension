@@ -8,7 +8,8 @@
         "tabs",
         "webNavigation",
         "geolocation",
-        "activeTab"
+        "activeTab",
+        "<all_urls>"
     ],
     "background": {
         "scripts": ["background.js"],
@@ -20,6 +21,6 @@
     "content_scripts": [{
         "matches": ["https://www.facebook.com/events/*"],
         "js": ["content.js"],
-        "run_at": "document_start"
+        "run_at": "document_end"
     }]
 }

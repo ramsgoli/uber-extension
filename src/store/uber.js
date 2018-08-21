@@ -5,7 +5,7 @@ const REQUEST_SUCCESS = 'request_success'
 const REQUEST_ERROR = 'request_error'
 
 const _buildURL = params => {
-  const parameterString = '?' + Object.keys(params).reduce((acc, elem) => {
+  const parameterString = '/getEstimate?' + Object.keys(params).reduce((acc, elem) => {
     return acc + `${elem}=${params[elem]}&`
   }, '').slice(0, -1)
   return Config.API_URL + parameterString

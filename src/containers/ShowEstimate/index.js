@@ -12,14 +12,14 @@ class ShowEstimateContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('but here thoo')
+    console.log(nextProps)
     if (nextProps.address && !nextProps.addressLocation) {
-      console.log('getting coordinates')
+      console.log(1)
       return this.props.getCoordinates(nextProps.address)
     }
 
-    if (nextProps.location && nextProps.addressLocation && !nextProps.prices) {
-      console.log('getting estimate')
+    if (nextProps.location && nextProps.addressLocation && !nextProps.prices && !nextProps.error) {
+      console.log(2)
       const params = {
         start_latitude: nextProps.location.latitude,
         start_longitude: nextProps.location.longitude,
@@ -31,14 +31,15 @@ class ShowEstimateContainer extends React.Component {
   }
 
   render() {
-    const { address, location } = this.props
-    console.log(this.props)
+    const { prices } = this.props
 
-    if (!address || !location) {
+    if (!prices) {
       return <Spinner />
     }
     return (
-      <ShowEstimate />
+      <ShowEstimate
+        prices={prices}
+      />
     )
   }
 }
@@ -49,7 +50,8 @@ const mapStateToProps = state => {
     address: Chrome.address,
     location: Chrome.location,
     addressLocation: Coordinates.coordinates,
-    prices: Uber.prices
+    prices: Uber.prices,
+    error: Uber.error
   }
 }
 

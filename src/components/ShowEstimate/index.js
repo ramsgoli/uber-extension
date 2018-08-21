@@ -1,7 +1,9 @@
 import React from 'react'
 
-export default () => (
+export default ({ prices }) => (
   <div className='container show-prices'>
-    Some Prices!
+    {prices.map(price => {
+      return <span>{price.estimate}</span>
+    })}
   </div>
 )

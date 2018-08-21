@@ -6,7 +6,7 @@ const REQUEST_ERROR = 'request_error'
 
 export const getCoordinates = address => {
   return dispatch => {
-    const url = `${Config.API_URL}?address=${address}`
+    const url = `${Config.API_URL}/getCoords?address=${address}`
     return fetch(url, {
       method: 'GET'
     })
